@@ -1,0 +1,29 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+string a[8] = { "000","001","010","011","100","101","110","111" };
+string b[8] = { "0","1","10","11","100","101","110","111" };
+int main() {
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	
+	string n_2,n_8;
+	cin >> n_8;
+	int len = n_8.length();
+
+	if (len == 1) {
+		n_2 = b[n_8[0] - '0'];
+		cout << n_2 << '\n';
+	}
+	else {
+		for (int i = 1; i < len; i++){
+			n_2 += a[n_8[i] - '0'];
+		}
+		n_2 = b[n_8[0] - '0']+n_2;
+		cout << n_2 << '\n';
+	}
+}
+
+
+	
