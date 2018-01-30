@@ -1,0 +1,42 @@
+#include <iostream>
+#include <cstring>
+#include <algorithm>
+using namespace std;
+
+char pwd[16], ls[16];
+int l, c;
+
+void dfs(int v, int depth, int numA, int numB) {
+	if (depth == l) {
+		if (depth == l&& numA > 0 && numB >= 2) {
+			for (int i = 0; ls[i] != 0; i++) {
+				cout << ls[i];
+			}
+			cout << '\n';
+		}
+		return;
+	}
+	else {
+		for (int i = v; i < c; i++) {
+			ls[depth] = pwd[i];
+			if (pwd[i] == 'a' || pwd[i] == 'e' || pwd[i] == 'i' || pwd[i] == 'o' || pwd[i] == 'u') {
+				dfs(i + 1, depth + 1, numA + 1, numB);
+			}
+			else {
+				dfs(i + 1, depth + 1, numA, numB + 1);
+			}
+		}
+	}
+}
+
+int main() {
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+
+	cin >> l >> c;
+	for (int i = 0; i < c; i++) { cin >> pwd[i]; }
+	sort(pwd, pwd + c);
+	dfs(0, 0, 0, 0);
+}
+
+// strlen(a) = > O(n)
