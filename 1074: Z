@@ -1,0 +1,41 @@
+#include <iostream>
+using namespace std;
+
+int search(int size, int row, int column) {
+
+	int result = 0;
+
+	if (size == 1) {
+		return result;
+	}
+	else {
+		if (size / 2 >= row && size / 2 >= column) {
+			result = search(size / 2, row, column);
+			return result;
+		}
+		else if (size / 2 >= row && size / 2 <column) {
+			result = (size/2)* (size/2) + search(size / 2, row, column- (size / 2));  // relative position for axis
+			return result;
+		}
+		else if (size / 2 <row && size / 2 >=column) {
+			result = 2*(size / 2)* (size / 2) + search(size / 2, row - (size / 2), column) ;
+			return result;
+		}
+		else {
+			result = 3* (size / 2)* (size / 2) + search(size / 2, row - (size / 2), column - (size / 2)) ;
+			return result;
+		}
+	}
+}
+
+int main() {
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+
+	int N, r, c;
+	cin >> N >> r >> c;
+	cout << search((1 << N), r+1, c+1) << '\n';
+}
+
+
+// divide And Conquer, Base 0 or 1
