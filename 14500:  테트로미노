@@ -1,0 +1,102 @@
+#include <iostream>
+using namespace std;
+
+int mat[501][501], sum, temp;
+
+int main() {
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+
+	int N, M;
+	cin >> N >> M;
+
+	for (int i = 1; i <= N; i++) {
+		for (int j = 1; j <= M; j++) {
+			cin >> mat[i][j];
+		}
+	}
+  
+	for (int i = 1; i <= N; i++) {
+		for (int j = 1; j <= M; j++) {
+
+			if (j + 3 <= M) {  
+				temp = mat[i][j] + mat[i][j + 1] + mat[i][j + 2] + mat[i][j + 3];
+				sum = (sum > temp) ? sum : temp;
+			}
+			if (i+3 <= N) {  
+				temp = mat[i][j] + mat[i+1][j] + mat[i+2][j] + mat[i+3][j];
+				sum = (sum > temp) ? sum : temp;
+			}
+			if (i+1 <=N && j+1 <=M) { 
+				temp = mat[i][j] + mat[i + 1][j] + mat[i][j + 1] + mat[i + 1][j + 1];
+				sum = (sum > temp) ? sum : temp;
+			}
+			if (i+2 <=N && j+1<=M) { 
+				temp = mat[i][j] + mat[i + 1][j] + mat[i + 2][j] + mat[i + 2][j + 1];
+				sum = (sum > temp) ? sum : temp;
+			}
+			if (i+2 <=N && j+1<= M) {
+				temp = mat[i][j + 1] + mat[i + 1][j + 1] + mat[i + 2][j + 1] + mat[i + 2][j];
+				sum = (sum > temp) ? sum : temp;
+			}
+			if (i+1 <= N && j+2 <=M) {
+				temp = mat[i][j] + mat[i + 1][j] + mat[i][j + 1] + mat[i][j + 2];
+				sum = (sum > temp) ? sum : temp;
+			}
+			if (i+2 <=N && j+1 <=M) {
+				temp = mat[i][j] + mat[i][j + 1] + mat[i + 1][j + 1] + mat[i + 2][j + 1];
+				sum = (sum > temp) ? sum : temp;
+			}
+			if (i+1 <=N && j+2 <=M ) {
+				temp = mat[i][j + 2] + mat[i + 1][j + 2] + mat[i + 1][j + 1] + mat[i + 1][j];
+				sum = (sum > temp) ? sum : temp;
+			}
+			if (i+1 <= N && j+2 <=M) {
+				temp = mat[i][j] + mat[i + 1][j] + mat[i + 1][j + 1] + mat[i + 1][j + 2];
+				sum = (sum > temp) ? sum : temp;
+			}
+			if (i + 2 <= N && j + 1 <= M) {
+				temp = mat[i][j] + mat[i][j + 1] + mat[i + 1][j] + mat[i + 2][j];
+				sum = (sum > temp) ? sum : temp;
+			}
+			if (i + 1 <= N && j + 1 <= M) {
+				temp = mat[i][j] + mat[i][j + 1] + mat[i][j + 2] + mat[i + 1][j + 2];
+				sum = (sum > temp) ? sum : temp;
+			}
+			if (i+2 <=N && j+1 <=M) {
+				temp = mat[i][j] + mat[i + 1][j] + mat[i + 1][j + 1] + mat[i + 2][j + 1];
+				sum = (sum > temp) ? sum : temp;
+			}
+			if (i+2 <=N && j+1 <=M) {
+				temp = mat[i][j + 1] + mat[i + 1][j + 1] + mat[i + 1][j] + mat[i + 2][j];
+				sum = (sum > temp) ? sum : temp;
+			}
+			if (i+1 <= N && j+2<=M) {
+				temp = mat[i + 1][j] + mat[i + 1][j + 1] + mat[i][j + 1] + mat[i][j + 2];
+				sum = (sum > temp) ? sum : temp;
+			}
+			if (i+1 <=N && j+2 <=M) {
+				temp = mat[i][j] + mat[i][j + 1] + mat[i + 1][j + 1] + mat[i + 1][j + 2];
+				sum = (sum > temp) ? sum : temp;
+			}
+			if (i+1 <=N && j+2<=M) {
+				temp = mat[i][j] + mat[i][j + 1] + mat[i + 1][j + 1] + mat[i][j + 2];
+				sum = (sum > temp) ? sum : temp;
+			}
+			if (i+1 <=N && j+2 <=M) {
+				temp = mat[i + 1][j] + mat[i][j + 1] + mat[i + 1][j + 1] + mat[i + 1][j + 2];
+				sum = (sum > temp) ? sum : temp;
+			}
+			if (i+2 <=N && j+1 <=M) {
+				temp = mat[i + 1][j] + mat[i][j + 1] + mat[i + 1][j + 1] + mat[i + 2][j + 1];
+				sum = (sum > temp) ? sum : temp;
+			}
+			if (i + 2 <= N && j + 1 <= M) {
+				temp = mat[i][j] + mat[i + 1][j] + mat[i + 2][j] + mat[i + 1][j + 1];
+				sum = (sum > temp) ? sum : temp;
+			}
+		}
+	}
+	cout << sum << '\n';
+}
+// O(MN)  by Brute force, All case is 19
