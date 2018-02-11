@@ -1,0 +1,64 @@
+#include <iostream>
+#include <cstdio>
+#include <queue>
+using namespace std;
+
+const int dx[] = { 1,0,-1,0 };
+const int dy[] = { 0,-1,0,1 };  //offset for distance
+
+int maze[100][100];
+bool visit[100][100];
+
+int main() {
+
+//if we turn off ios_base -> Error!!!!
+	int N, M;
+	int result = 1;
+
+	cin >> N >> M;
+	for (int i = 0; i <N; i++) {
+		for (int j = 0; j < M; j++) {
+			scanf("%1d", &maze[i][j]);
+		}
+	} 
+	queue<int> q;
+	q.push(0);
+	visit[0][0] = true;
+
+	while (1) {
+		int qsize = q.size();
+
+		for (int i = 0; i < qsize; i++) {
+
+			int r = q.front() / 100;
+			int c = q.front() % 100;
+			q.pop();
+
+			if (r == N - 1 && c == M - 1) {
+				cout << result << '\n';
+				return 0;
+			}
+
+			else {
+
+				for (int j = 0; j < 4; j++) {
+					int nr = r + dx[j];
+					int nc = c + dy[j];
+
+					if (nr <0 || nr >= N || nc < 0 || nc >= M) { // out of maze
+						continue;
+					}
+					if (!maze[nr][nc]) { // walll
+						continue;
+					}
+					if (visit[nr][nc]) { // already visit
+						continue;
+					}
+					visit[nr][nc] = true;
+					q.push(100 * nr + nc);
+				}
+			}
+		}
+		result++;
+	}
+}
