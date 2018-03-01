@@ -1,0 +1,49 @@
+#include <iostream>
+#include <algorithm>
+#include <vector>
+using namespace std;
+
+class table
+{
+public:
+	int startTime;
+	int endTime;
+
+	table(int startTime, int endTime) {
+		this->startTime = startTime;
+		this->endTime = endTime;
+	}
+};
+
+bool operator <(const table &a, const table &b) {
+	if (a.endTime == b.endTime) {
+		return a.startTime < b.startTime;
+	}
+	return a.endTime < b.endTime;
+}
+
+int main() {
+
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+
+	int N,cnt,a,b,cur;
+	cnt = 1;
+	cur = 0;
+	vector<table> ta;
+	cin >> N;
+
+	for (int i = 0; i < N; i++){	
+		cin >> a >> b;
+		ta.push_back(table(a,b));
+	}
+	sort(ta.begin(),ta.end());
+
+	for (int i = 0; i < N-1; i++){ 
+		if (ta[i+1].startTime >= ta[cur].endTime){
+			cnt++;
+			cur = i+1;
+			}
+	}
+	cout << cnt << '\n';
+}
