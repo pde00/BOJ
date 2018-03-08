@@ -1,0 +1,37 @@
+#include <iostream>
+#include <queue>
+#include <vector>
+using namespace std;
+
+vector<int> adj[110];
+bool chk[110];
+queue<int> q;
+
+int bfs(int v) {
+	int cnt = 0;
+	q.push(v);
+	chk[v] = true;
+	while (!q.empty()) {
+		int v = q.front();
+		q.pop();
+		for (int i = 0; i < adj[v].size(); i++){
+			if (!chk[adj[v][i]]) {
+				q.push(adj[v][i]);
+				chk[adj[v][i]] = true;
+				cnt++;
+			}
+		}
+	}
+	return cnt;
+}
+
+int main() {
+	int n, m,a,b;
+	cin >> n >> m;
+	for (int i = 0; i < m; i++){
+		cin >> a >> b;
+		adj[a].push_back(b);
+		adj[b].push_back(a);
+	}
+	cout << bfs(1) << '\n';
+}
