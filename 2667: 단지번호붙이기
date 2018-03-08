@@ -1,0 +1,70 @@
+#include <iostream>
+#include <queue>
+#include <vector>
+#include <cstdio>
+#include <algorithm>
+#pragma warning(disable:4996)
+using namespace std;
+
+class pos {
+public:
+	int x, y;
+	pos(int a, int b) {
+		this->x = a;
+		this->y = b;
+	}
+};
+
+int n;
+int map[28][28];
+bool chk[28][28];
+int dx[4] = { 0,0,1,-1 };
+int dy[4] = { 1,-1,0,0 };
+
+queue<pos> q;
+vector<int> town;
+
+void bfs() {
+	for (int i = 1; i <= n; i++){
+		for (int j = 1; j <= n; j++) {
+			int cnt = 1;
+			if (map[i][j] == 1 && chk[i][j] == false) {
+				q.push(pos(i, j));
+				chk[i][j] = true;
+				while (!q.empty()) {
+					int mx = q.front().x;
+					int my = q.front().y;
+					q.pop();
+
+					for (int k = 0; k < 4; k++){
+						int nx = mx + dx[k];
+						int ny = my + dy[k];
+
+						if (map[nx][ny] == 1 && chk[nx][ny] == false) {
+							q.push(pos(nx, ny));
+							cnt++; 
+							chk[nx][ny] = true;
+						}
+					}
+				}
+				town.push_back(cnt);
+			}
+		}
+	}
+}
+
+
+int main() {
+	cin >> n;
+	for (int i = 1	; i <=n; i++){
+		for (int j = 1; j <= n; j++){
+			scanf("%1d", &map[i][j]);
+		}
+	}
+	bfs();
+	sort(town.begin(), town.end());
+	cout << town.size() << '\n';
+	for (int i = 0; i < town.size(); i++){
+		cout << town[i] << '\n';
+	}
+}
