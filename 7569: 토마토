@@ -1,0 +1,71 @@
+#include <iostream>
+#include <queue>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+class pos {
+public: int x, y, z;
+		pos(int a, int b, int c) {
+			this->x = a;
+			this->y = b;
+			this->z = c;
+		}
+};
+
+queue<pos> q;
+int M, N, H, V;
+int map[110][110][110];
+bool chk[110][110][110];
+
+int dx[6] = { 0,0,0,0,1,-1 };
+int dy[6] = { 1,-1,0,0,0,0 };
+int dz[6] = { 0,0,1,-1,0,0 }; 
+
+int bfs(int s) {
+	int cnt = 0;
+	int chknum = 0;
+	if (s == N*M*H) return 0;
+	while (!q.empty()) {
+		int qsize = q.size();
+
+		for (int i = 0; i < qsize; i++){
+			int nx = q.front().x;
+			int ny = q.front().y;
+			int nz = q.front().z;
+			chk[nx][ny][nz] = true;
+			q.pop();
+
+			for (int j = 0; j < 6; j++) {
+				int mx = nx + dx[j];
+				int my = ny + dy[j];
+				int mz = nz + dz[j];
+
+				if (mx <1 || my < 1 || mz < 1 || mx > H || my > N || mz > M) continue;
+				if (chk[mx][my][mz] == true) continue;
+				if (map[mx][my][mz] == -1 || map[mx][my][mz] == 1) continue;
+
+				q.push(pos(mx, my, mz));
+				chk[mx][my][mz] = true;
+				chknum++;
+			}
+		}
+		if (q.size() == 0) break;
+		cnt++;
+	}
+	return (chknum == N*M*H - V) ?(cnt) : (-1);
+}
+
+int main() {
+	cin >> M >> N >> H;
+	for (int i = 1; i <= H; i++){
+		for (int j = 1; j <= N; j++){
+			for (int k = 1; k <= M; k++){
+				cin >> map[i][j][k];
+				if (map[i][j][k] == 1) q.push(pos(i, j, k));
+				if (map[i][j][k] == 1 || map[i][j][k] == -1) V++;
+			}
+		}
+	}
+	cout << bfs(V) << '\n';
+}
