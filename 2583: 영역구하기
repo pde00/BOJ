@@ -1,0 +1,71 @@
+#include <iostream>
+#include <queue>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+class pos {
+public: int x, y;
+		pos(int a, int b) :x(a), y(b) {};
+};
+
+int M,N,K;
+queue<pos> q;
+vector<int> area;
+int map[110][110];
+bool chk[110][110];
+
+int dx[4] = { 1,-1,0,0 };
+int dy[4] = { 0,0,1,-1 };
+
+void bfs() {
+	for (int i = 1; i <= M; i++){
+		for (int j = 1; j <= N; j++){
+			if (map[i][j] == 0 && chk[i][j] == false) {
+				int s = 1;
+				q.push(pos(i, j));
+				chk[i][j] = true;
+				while (!q.empty()){
+					int nx = q.front().x;
+					int ny = q.front().y;
+					q.pop();
+					for (int k = 0; k < 4; k++){
+						int mx = nx + dx[k];
+						int my = ny + dy[k];
+
+						if (map[mx][my] == 1) continue;
+						if (mx<1 || my < 1 || mx> M || my > N) continue;
+						if (chk[mx][my] == true)continue;
+
+						q.push(pos(mx, my));
+						chk[mx][my] = true;
+						s++;
+					}
+				}
+				area.push_back(s);
+			}
+		}
+	}
+	sort(area.begin(), area.end());
+	cout << area.size() << '\n';
+	for (int i = 0; i < area.size(); i++){
+		cout << area[i] << " " ;
+	}
+	cout << '\n';
+}
+
+int main() {
+	int a,b,c,d;
+	cin >> M >> N >> K;
+	
+	for (int i = 0; i < K; i++){
+		cin >> a >> b >> c >> d;
+
+		for (int j = M+1-d; j <= M-b; j++){
+			for (int k = a+1; k <= c; k++){
+				map[j][k] =1;
+			}
+		}
+}
+bfs();
+}
