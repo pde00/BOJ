@@ -1,0 +1,26 @@
+#include <iostream>
+using namespace std;
+
+int T, K, sum;
+
+int Tnum(int n){	return n*(n + 1) / 2;}
+
+int isTnum(int x){
+	for (int i = 1; i < x; i++) {
+		if (Tnum(i) > x) return 0;
+		for (int j = 1; j < x; j++) {
+			if (Tnum(i) + Tnum(j) > x) break;
+			for (int k = 1; k < x; k++) {
+				if (Tnum(i) + Tnum(j) + Tnum(k) > x) break;
+				if (Tnum(i) + Tnum(j) + Tnum(k) == x) return 1;
+			}
+		}
+	}
+}
+int main() {
+	cin >> T;
+	while (T--) {
+		cin >> K;
+		cout << isTnum(K) << '\n';
+	}
+}
