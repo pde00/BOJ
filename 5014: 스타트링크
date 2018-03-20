@@ -1,0 +1,51 @@
+#include <iostream>
+#include <queue>
+using namespace std;
+
+int F, S, G, U, D;
+bool chk[1000010];
+queue<int> q;
+
+void bfs(int s) {
+	if (s == G) {
+		cout << 0 << '\n';
+		return;
+	}
+	int cnt = 0;
+	q.push(s);
+	chk[s] = true;
+	while (!q.empty()) {
+		int qsize = q.size();
+
+		for (int i = 0; i < qsize; i++) {
+			int mf = q.front();
+			q.pop();
+			
+			if (mf + U == G || mf - D == G) {
+				cnt++;
+				cout << cnt << '\n';
+				return;
+			}
+			if (mf + U <= F && chk[mf + U] == false) {
+				q.push(mf + U);
+				chk[mf + U] = true;
+			}
+			if (mf - D >= 1 && chk[mf - D] == false) {
+				q.push(mf - D);
+				chk[mf - D] = true;
+			}
+		}
+		cnt++;
+	}
+	cout << "use the stairs" << '\n';
+}
+
+int main() {
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+
+	cin >> F >> S >> G >> U >> D;
+	bfs(S);
+}
+
+// When s = g?? what will Code do?
