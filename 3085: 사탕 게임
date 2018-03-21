@@ -1,0 +1,85 @@
+#include <iostream>
+#include <cstdio>
+#include <algorithm>
+#pragma warning(disable:4996)
+using namespace std;
+
+int N;
+char map[55][55];
+
+
+int sum() {
+	int result = 1;
+	int s1 = 1;
+	int temp1 = 1;
+	int s2 = 1;
+	int temp2 = 1;
+
+	for (int i = 1; i <= N; i++){
+		for (int j = 1; j < N; j++){
+			if (map[i][j] == map[i][j + 1]) {
+				temp1 += 1;
+				(temp1 > s1) ? (s1 = temp1) : (temp1);
+				if (j + 1 == N) temp1 = 1;
+			}
+			else {
+				(temp1 > s1) ? (s1 = temp1) : (temp1);
+				temp1 = 1;
+			}
+		}
+	}
+
+	for (int i = 1; i <= N; i++) {
+		for (int j = 1; j < N; j++) {
+			if (map[j][i] == map[j + 1][i]) {
+				temp2++;
+				(temp2 > s2) ? (s2 = temp2) : temp2;
+				if (j + 1 == N) temp2 = 1;
+			}
+			else {
+				
+				temp2 = 1;
+			}
+		}
+	}
+	return result = (s1 > s2) ? s1 : s2;
+}
+
+void bf() {
+	int result = 1;
+	for (int i = 1; i <= N; i++){
+		for (int j = 1; j <= N; j++){
+			if (i - 1 >= 1) {
+				swap(map[i][j], map[i - 1][j]);
+				(sum() > result) ? (result = sum()) : result;
+				swap(map[i][j], map[i - 1][j]);
+			}
+			if (i + 1 <= N) {
+				swap(map[i][j], map[i + 1][j]);
+				(sum() > result) ? (result = sum()) : result;
+				swap(map[i][j], map[i + 1][j]);
+			}
+			if (j - 1 >= 1) {
+				swap(map[i][j], map[i][j-1]);
+				(sum() > result) ? (result = sum()) : result;
+				swap(map[i][j], map[i][j-1]);
+			}
+			if (j + 1 <= N) {
+				swap(map[i][j], map[i][j+1]);
+				(sum() > result) ? (result = sum()) : result;
+				swap(map[i][j], map[i][j+1]);
+			}
+		}
+	}
+	cout << result << '\n';
+}
+
+
+
+int main() {
+	cin >> N;
+	for (int i = 1; i <= N; i++)
+		for (int j = 1; j <= N; j++)
+			scanf("%1s", &map[i][j]);
+	bf();
+}
