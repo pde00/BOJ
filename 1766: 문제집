@@ -1,0 +1,49 @@
+#include <iostream>
+#include <queue>
+#include <vector>
+using namespace std;
+
+int N, M;
+vector<int> v[32001];
+int indg[32001];
+bool chk[32001];
+priority_queue<int> pq;  //default is MAX DATA
+
+
+
+int main() {
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	int a, b;
+
+	cin >> N >> M;
+
+	for (int i = 1; i <= M; i++){
+		cin >> a >> b;
+		v[a].push_back(b);
+		indg[b]++;
+	}
+
+	for (int i = 1; i <= N; i++){
+		if (indg[i] == 0) {
+			chk[i] = true;
+			pq.push(-i);
+		}
+	}
+
+	while (!pq.empty()) {
+		int pqt = -pq.top();
+		cout << pqt << " ";
+		pq.pop();
+		for (int i = 0; i < v[pqt].size(); i++){
+			if (chk[v[pqt].at(i)] == false && indg[v[pqt].at(i)] != 0) {
+				indg[v[pqt].at(i)]--;
+			}
+			if (indg[v[pqt].at(i)] == 0) {
+				chk[v[pqt].at(i)] = true;
+				pq.push(-v[pqt].at(i));
+			}
+		}
+
+	}
+}
