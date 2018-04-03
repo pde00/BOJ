@@ -1,0 +1,130 @@
+#include <iostream>
+#include <cstdio>
+using namespace std;
+
+struct dice{
+	int d, u, n, e, s, w;
+};
+
+dice d1;
+int N, M, K, num;
+int map[25][25];
+int curx, cury;
+
+void chk() {
+	if (map[curx][cury] == 0) {
+		map[curx][cury] = d1.d;
+		cout << d1.u << '\n';
+		return;
+	}
+	else {
+		d1.d = map[curx][cury];
+		map[curx][cury] = 0;
+		cout << d1.u << '\n';
+		return;
+	}
+}
+
+
+void moveN() {
+	if (curx - 1 < 1)
+		return;
+	else {
+		curx--;
+		//Dice set
+		int temp = d1.d;
+		int temp2 = d1.u;
+		int temp3 = d1.n;
+		int temp4 = d1.s;
+
+		d1.d = temp3;
+		d1.u = temp4;
+		d1.n = temp2;
+		d1.s = temp;
+		chk();
+	}
+}
+
+void moveE() {
+	if (cury + 1 > M) 
+		return;
+	else {
+		cury++;
+
+		int temp = d1.d;
+		int temp2 = d1.u;
+		int temp3 = d1.e;
+		int temp4 = d1.w;
+
+		d1.d = temp3;
+		d1.u = temp4;
+		d1.e = temp2;
+		d1.w = temp;
+		chk();
+	}
+}
+
+void moveS() {
+	if (curx + 1 > N) 
+		return;
+	else {
+		curx++;
+
+		int temp = d1.d;
+		int temp2 = d1.u;
+		int temp3 = d1.n;
+		int temp4 = d1.s;
+
+		d1.d = temp4;
+		d1.u = temp3;
+		d1.n = temp;
+		d1.s = temp2;
+		chk();
+	}
+}
+void moveW() {
+	if (cury - 1 < 1)
+		return;
+	else {
+		cury--;
+
+		int temp = d1.d;
+		int temp2 = d1.u;
+		int temp3 = d1.e;
+		int temp4 = d1.w;
+
+		d1.d = temp4;
+		d1.u = temp3;
+		d1.e = temp;
+		d1.w = temp2;
+		chk();
+
+	}
+}
+
+int main() {
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+
+	cin >> N >> M >> curx >> cury >> K;
+
+	curx++;
+	cury++;
+
+	for (int i = 1; i <= N; i++){
+		for (int j = 1; j <= M; j++){
+			cin >> map[i][j];
+		}
+	}
+	for (int i = 0; i < K; i++){
+		cin >> num;
+		if (num == 1)
+			moveE();
+		if (num == 2)
+			moveW();
+		if (num == 3)
+			moveN();
+		if (num == 4)
+			moveS();
+	}
+}
