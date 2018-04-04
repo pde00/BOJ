@@ -1,0 +1,117 @@
+#include <iostream>
+#include <queue>
+#include <algorithm>
+using namespace std;
+
+int N, M;
+int map[10][10];
+int init_map[10][10];
+bool visit[10][10];
+int dx[4] = { 0,0,1,-1 };
+int dy[4] = { 1,-1,0,0 };
+
+class pos {
+public:
+	int x, y;
+	pos(int a, int b){
+		x = a;
+		y = b;
+	};
+};
+
+queue<pos> q;
+
+//Rest map, visit
+void myreset() {
+	for (int i = 1; i <=N; i++){
+		for (int j = 1; j <= M; j++){
+			map[i][j] = init_map[i][j];
+			visit[i][j] = false;
+		}
+	}
+}
+
+//virus area
+void virus_infect() {
+	for (int i = 1; i <= N; i++){
+		for (int j = 1; j <= M; j++){
+			if (map[i][j] == 2 && visit[i][j] == false) {
+				visit[i][j] = true;
+				q.push(pos(i, j));
+				while (!q.empty()) {
+					int nx = q.front().x;
+					int ny = q.front().y;
+					q.pop();
+
+					for (int l = 0; l < 4; l++) {
+						int mx = nx + dx[l];
+						int my = ny + dy[l];
+
+						if (mx<1 || mx>N || my < 1 || my>M) continue;
+						if (map[mx][my] == 1) continue;
+						if (visit[mx][my] == true)continue;
+
+						visit[mx][my] = true;
+						q.push(pos(mx, my));
+						map[mx][my] = 2;
+					}
+				}
+			}
+		}
+	}
+}
+//safety area
+int chkArea() {
+	int area = 0;
+	for (int i = 1; i <= N; i++) {
+		for (int j = 1; j <= M; j++) {
+			if (map[i][j] == 0)
+				area++;
+		}
+	}
+	return area;
+}
+
+int main() {
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+
+	int maxArea = 0;
+	cin >> N >> M;
+	for (int i = 1; i <= N; i++) {
+		for (int j = 1; j <= M; j++) {
+			cin >> init_map[i][j];
+			map[i][j] = init_map[i][j];
+		}
+	}
+
+	for (int i1 = 1; i1 <= N; i1++){
+		for (int j1 = 1; j1 <= M; j1++){  // pos 1
+			if (map[i1][j1] == 2 || map[i1][j1] == 1) continue;
+
+			for (int i2 = 1; i2 <= N; i2++){
+				for (int j2 = 1; j2 <= M; j2++){
+					if (i1 == i2 && j1 == j2) continue;
+					if (map[i2][j2] == 2 || map[i2][j2] == 1) continue;
+
+					for (int i3 = 1; i3 <= N; i3++){
+						for (int j3 = 1; j3 <= M; j3++){
+							if (i2 == i3 && j2 == j3) continue;
+							if (i1 == i3 && j1 == j3) continue;
+							if (map[i3][j3] == 2 || map[i3][j3] == 1) continue;
+							
+							map[i1][j1] = 1;
+							map[i2][j2] = 1;
+							map[i3][j3] = 1;
+
+							virus_infect();
+							maxArea = max(maxArea,chkArea());
+							myreset();
+						}
+					}
+				}
+			}
+		}
+	}
+	cout << maxArea;
+}
