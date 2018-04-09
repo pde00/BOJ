@@ -1,0 +1,160 @@
+#include <iostream>
+#include <cstdio>
+#pragma warning(disable:4996)
+using namespace std;
+
+class Wheel {
+public:
+	int t1, t2, t3, t4, t5, t6, t7, t8;
+};
+
+Wheel cur[5], prevs[5];// if Rt is End, prev update
+
+int sumOf() {
+	int sum = 0;
+	if (cur[1].t1 == 1) sum += 1;
+	if (cur[2].t1 == 1) sum += 2;
+	if (cur[3].t1 == 1) sum += 4;
+	if (cur[4].t1 == 1) sum += 8;
+	return sum;
+}
+
+void CounterClkRt(int n) {
+	int temp1 = cur[n].t1;int temp2 = cur[n].t2;int temp3 = cur[n].t3;int temp4 = cur[n].t4;
+	int temp5 = cur[n].t5;int temp6 = cur[n].t6;int temp7 = cur[n].t7;int temp8 = cur[n].t8;
+	cur[n].t1 = temp2;cur[n].t2 = temp3;cur[n].t3 = temp4; cur[n].t4 = temp5;
+	cur[n].t5 = temp6;cur[n].t6 = temp7;cur[n].t7 = temp8;cur[n].t8 = temp1;
+}
+
+void ClkRt(int n) {
+	int temp1 = cur[n].t1;int temp2 = cur[n].t2;int temp3 = cur[n].t3;int temp4 = cur[n].t4;
+	int temp5 = cur[n].t5;int temp6 = cur[n].t6;int temp7 = cur[n].t7;int temp8 = cur[n].t8;
+	cur[n].t1 = temp8;cur[n].t2 = temp1;cur[n].t3 = temp2;cur[n].t4 = temp3;
+	cur[n].t5 = temp4;cur[n].t6 = temp5;cur[n].t7 = temp6;cur[n].t8 = temp7;
+}
+
+void setWheel() {
+	for (int i = 1; i < 5; i++)
+		prevs[i] = cur[i];
+}
+
+bool isRotate(int a, int b) {
+	return (prevs[a].t3 != prevs[b].t7);
+}
+
+void rotation1(int dir) {
+	bool a = isRotate(1, 2);
+	bool b = isRotate(2, 3);
+	bool c = isRotate(3, 4);
+
+	if (dir == 1) {
+		ClkRt(1);
+		if (a) CounterClkRt(2);
+		if (!a) {setWheel(); return; }
+		if (b) ClkRt(3);
+		if (!b) { setWheel(); return; }
+		if (c) CounterClkRt(4);
+	}
+	else {
+		CounterClkRt(1);
+		if (a) ClkRt(2);
+		if (!a) { setWheel(); return; }
+		if (b) CounterClkRt(3);
+		if (!b) { setWheel(); return; }
+		if (c) ClkRt(4);
+	}
+	setWheel();
+	return;
+}
+
+void rotation2(int dir) {
+	bool a = isRotate(1, 2);
+	bool b = isRotate(2, 3);
+	bool c = isRotate(3, 4);
+
+	if (dir == 1) {
+		ClkRt(2);
+		if (a) CounterClkRt(1);
+		if (b) CounterClkRt(3);
+		if(!b) { setWheel(); return; }
+		if (c) ClkRt(4);
+	}
+	else {
+		CounterClkRt(2);
+		if (a) ClkRt(1);
+		if (b) ClkRt(3);
+		if (!b) { setWheel(); return; }
+		if (c) CounterClkRt(4);
+	}
+	setWheel();
+	return;
+}
+
+void rotation3(int dir) {
+	bool a = isRotate(1, 2);
+	bool b = isRotate(2, 3);
+	bool c = isRotate(3, 4);
+
+	if (dir == 1) {
+		ClkRt(3);
+		if (c) CounterClkRt(4);
+		if (b) CounterClkRt(2);
+		if (!b) { setWheel(); return; }
+		if (a) ClkRt(1);
+	}
+	else {
+		CounterClkRt(3);
+		if (c) ClkRt(4);
+		if (b) ClkRt(2);
+		if (!b) { setWheel(); return; }
+		if (a) CounterClkRt(1);
+	}
+	setWheel();
+	return;
+}
+
+void rotation4(int dir) {
+	bool a = isRotate(1, 2);
+	bool b = isRotate(2, 3);
+	bool c = isRotate(3, 4);
+
+	if (dir == 1) {
+		ClkRt(4);
+		if (c) CounterClkRt(3);
+		if (!c) { setWheel(); return; }
+		if (b) ClkRt(2);
+		if (!b) { setWheel(); return; }
+		if (a)CounterClkRt(1);
+	}
+	else {
+		CounterClkRt(4);
+		if (c) ClkRt(3);
+		if (!c) { setWheel(); return; }
+		if (b) CounterClkRt(2);
+		if (!b) { setWheel(); return; }
+		if (a) ClkRt(1);
+	}
+	setWheel();
+	return;
+}
+
+
+int main() {
+	int K;
+	for (int i = 1; i <= 4; i++){
+		int tp1, tp2, tp3, tp4, tp5, tp6, tp7, tp8;
+		scanf("%1d", &cur[i].t1);scanf("%1d", &cur[i].t2); scanf("%1d", &cur[i].t3); scanf("%1d", &cur[i].t4);
+		scanf("%1d", &cur[i].t5); scanf("%1d", &cur[i].t6); scanf("%1d", &cur[i].t7); scanf("%1d", &cur[i].t8);
+	}
+	setWheel();
+	cin >> K;
+	for (int i = 0; i < K; i++) {
+		int x1, d1;
+		cin >> x1 >> d1;
+		if (x1 == 1) {rotation1(d1); }
+		else if (x1 == 2){ rotation2(d1);}
+		else if (x1 == 3) { rotation3(d1); }
+		else if (x1 == 4) { rotation4(d1); }
+	}
+	cout <<sumOf() << '\n';
+}
