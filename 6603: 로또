@@ -1,0 +1,33 @@
+#include <iostream>
+using namespace std;
+
+int k, arr[15], ans[7];
+
+void dfs(int cur, int cnt) {
+	if (cnt == 6) {
+		for (int i = 0; i < 6; i++) {
+			cout << ans[i] << " ";
+		}
+		cout << '\n';
+		return;
+	}
+	//Pick
+	if (cnt < 6) {
+		ans[cnt] = arr[cur];
+		dfs(cur + 1, cnt + 1);
+	}
+	//NOT pick BUT cur is moving
+	if (k - cur + cnt > 6) dfs(cur + 1, cnt);
+}
+
+int main() {
+	while (1) {
+		cin >> k;
+		if (k == 0) break;
+		for (int i = 0; i < k; i++) {
+			cin >> arr[i];
+		}
+		dfs(0, 0);
+		cout << '\n';
+	}
+}
