@@ -1,0 +1,76 @@
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include <queue>
+#pragma warning(disable:4996)
+using namespace std;
+
+class pos {
+public:
+	int x, y;
+	pos(int ax, int ay) :x(ax), y(ay) {};
+};
+
+int dx[4] = { 0,0,1,-1 };
+int dy[4] = { 1,-1,0,0 };
+int t, map[52][52], N, M, result;
+bool visit[52][52];
+
+queue<pos> q;
+vector<pos> v;
+
+void bfs(int i , int j) {
+	visit[i][j] = true;
+	q.push(pos(i, j));
+	while (!q.empty()) {
+		int qsize = q.size();
+
+		for (int i = 0; i < qsize; i++) {
+			pos p = q.front();
+			q.pop();
+			for (int j = 0; j < 4; j++) {
+
+				int tx = p.x + dx[j];
+				int ty = p.y + dy[j];
+				
+				if (tx < 1 || tx > N || ty < 1 || ty > M) continue;
+				if (visit[tx][ty]) continue;
+				if (!map[tx][ty]) continue;
+				visit[tx][ty] = true;
+				q.push(pos(tx, ty));
+			}
+		}
+		t++;
+	}
+}
+
+void reset() {
+	for (int i = 1; i <= N; i++) {
+		for (int j = 1; j <= M; j++) {
+			visit[i][j] = false;
+		}
+	}
+}
+
+int main() {
+	cin >> N >> M;
+	char a;
+	for (int i = 1; i <= N; i++) {
+		for (int j = 1; j <= M; j++) {
+			scanf(" %1c", &a);
+			if (a == 'W') map[i][j] = 0;
+			if (a == 'L') { 
+				map[i][j] = 1; 
+				v.push_back(pos(i, j));
+			}
+		}
+	}
+	
+	for (int i = 0; i < v.size(); i++) {
+		bfs(v.at(i).x, v.at(i).y);
+		result = max(t-1, result);
+		t = 0;
+		reset();
+	}
+	cout << result << '\n';
+}
