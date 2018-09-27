@@ -1,0 +1,55 @@
+#include <iostream>
+#include <algorithm>
+#define MIN_NUMBER -1000000005
+#define MAX_NUMBER 1000000005
+using namespace std;
+
+int maxS = MIN_NUMBER, minS = MAX_NUMBER, result, N;
+int ar[13];
+
+void backtrack(int cur, int plus, int sub, int mul, int divide) {
+	if (plus == 0 && sub == 0 && sub == 0 && mul == 0 && divide == 0) {		
+		maxS = max(maxS, result);
+		minS = min(minS, result);
+		return;
+	}
+	else {
+		if (plus > 0) {
+			result += ar[cur];
+			backtrack(cur + 1, plus - 1, sub, mul, divide);
+			result -= ar[cur];
+		}
+		if (sub > 0) {
+			result -= ar[cur];
+			backtrack(cur + 1, plus, sub - 1, mul, divide);
+			result += ar[cur];
+		}
+		if (mul > 0) {
+			result *= ar[cur];
+			backtrack(cur + 1, plus, sub, mul - 1, divide);
+			result /= ar[cur];
+		}
+		if (divide > 0) {
+			// ***** temp를 전역으로 설정하면 재귀 호출시마다 초기화가 됨
+      // 주의하자 -> 어떤 값을 저장하고자 할때는 그 영역에 local로 선언하는게 좋음
+			int temp = result;
+			result /= ar[cur]; // 나누기 연산 처리
+			backtrack(cur + 1, plus, sub, mul, divide - 1);
+			result = temp;
+		}
+	}
+}
+
+
+int main() {
+	int numOfPlus, numOfSub, numOfMul, numOfDiv;
+	cin >> N;
+	for (int i = 0; i < N; i++)
+		cin >> ar[i];
+	cin >> numOfPlus >> numOfSub >> numOfMul >> numOfDiv;
+	result = ar[0];
+	//초기값 ar[0]은 result에 넣고 다음 ar[1] 사이에서 부터 연산자 끼워넣기 시작
+	backtrack(1, numOfPlus, numOfSub, numOfMul, numOfDiv);
+	cout << maxS << '\n';
+	cout << minS << '\n';
+}
