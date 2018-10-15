@@ -1,0 +1,136 @@
+#include <iostream>
+#include <algorithm>
+#include <vector>
+using namespace std;
+
+//최소 사각지대
+// 0 빈칸, 6 벽
+//1,2,3,4,5 CCTV
+//index 1 base
+
+class CCTV {
+public:
+	int x, y, num;
+	CCTV(int ax, int ay, int anum) :x(ax), y(ay), num(anum) {};
+	CCTV() {};
+};
+
+int N, M, area = 65, temp;
+int map[9][9],visit[9][9];
+vector<CCTV> cList;
+
+int check() {
+	int tempArea = 0;
+	for (int i = 1; i <= N; i++) {
+		for (int j = 1; j <= M; j++) {
+			if (map[i][j] == 0 && visit[i][j] == 0) tempArea++;
+		}
+	}
+	return tempArea;
+}
+
+
+void spread(int x, int y, int dir, int flag) {
+	if (dir == 0) {//flag 1 => set 0 => Reset
+		while (x >= 1) {
+			if (map[x][y] == 6) break;
+			if (flag == 1) visit[x][y]++;
+			else visit[x][y]--;
+			x--;
+		}
+	}
+	if (dir == 1) {
+		while (y <= M) {
+			if (map[x][y] == 6) break;
+			if (flag == 1) visit[x][y]++;
+			else visit[x][y]--;
+			y++;
+		}
+	}
+	if (dir == 2) {
+		while (x <= N) {
+			if (map[x][y] == 6) break;
+			if (flag == 1) visit[x][y]++;
+			else visit[x][y]--;
+			x++;
+		}
+	}
+	if (dir == 3) {
+		while (y >= 1) {
+			if (map[x][y] == 6) break;
+			if (flag == 1) visit[x][y]++;
+			else visit[x][y]--;
+			y--;
+		}
+	}
+}
+
+void findArea(int cur) {
+	if (cur == cList.size()) {
+		area = min(check(), area);
+		return;
+	}
+
+	//CCTV info
+	int cx = cList.at(cur).x;
+	int cy = cList.at(cur).y;
+	int cNum = cList.at(cur).num;
+
+	
+	if (cNum == 1) {
+		for (int i = 0; i < 4; i++) {
+			spread(cx, cy, i, 1);
+			findArea(cur + 1);
+			spread(cx, cy, i, 0);
+		}
+	}
+  
+	if (cNum == 2) {
+		for (int i = 0; i < 2; i++) {
+			spread(cx, cy, i, 1);
+			spread(cx, cy, i+2, 1);
+			findArea(cur + 1);
+			spread(cx, cy, i, 0);
+			spread(cx, cy, i + 2, 0);
+		}
+  }
+  
+	if (cNum == 3) {
+		for (int i = 0; i < 4; i++) {
+			spread(cx, cy, i % 4 , 1);
+			spread(cx, cy, (i+1) % 4, 1);
+			findArea(cur + 1);
+			spread(cx, cy, i % 4, 0);
+			spread(cx, cy, (i + 1) % 4, 0);
+		}
+	}
+
+	if (cNum == 4) {
+		for (int i = 0; i < 4; i++) {
+			spread(cx, cy, i % 4, 1);
+			spread(cx, cy, (i + 1) % 4, 1);
+			spread(cx, cy, (i + 2) % 4, 1);
+			findArea(cur + 1);
+			spread(cx, cy, i % 4, 0);
+			spread(cx, cy, (i + 1) % 4, 0);
+			spread(cx, cy, (i + 2) % 4, 0);
+		}
+	}
+	if (cNum == 5) {
+		for (int i = 0; i < 4; i++) spread(cx, cy, i, 1);
+		findArea(cur + 1);
+		for (int i = 0; i < 4; i++) spread(cx, cy, i, 0);
+	}
+}
+
+int main() {
+	cin >> N >> M;
+	for (int i = 1; i <= N; i++) {
+		for (int j = 1; j <= M; j++) {
+			cin >> map[i][j];
+			if (map[i][j] != 6 && map[i][j] != 0) cList.push_back(CCTV(i, j, map[i][j]));
+		}
+	}
+	findArea(0);
+	cout << area << '\n';
+}
