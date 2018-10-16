@@ -1,0 +1,103 @@
+#include <iostream>
+using namespace std;
+class robot {
+public:
+	int x, y, dir;
+	robot(int ax, int ay, int adir) :x(ax), y(ay), dir(adir) {};
+};
+int N, M, map[52][52], r, c, d, numOfClean = 1;
+
+int main() {
+	cin >> N >> M >> r >> c >> d;
+	r++; c++;
+	robot r1 = robot(r, c, d);
+	for (int i = 1; i <= N; i++) {
+		for (int j = 1; j <= M; j++) {
+			cin >> map[i][j];
+		}
+	}	
+	map[r][c] = -1;
+	while (1) {
+		if (r1.dir == 0) {
+			if (map[r1.x - 1][r1.y] * map[r1.x + 1][r1.y] * map[r1.x][r1.y - 1] * map[r1.x][r1.y + 1] != 0 && map[r1.x + 1][r1.y] == 1) {
+				break;
+			}
+			if (map[r1.x - 1][r1.y] * map[r1.x + 1][r1.y] * map[r1.x][r1.y - 1] * map[r1.x][r1.y + 1] != 0 && map[r1.x + 1][r1.y] != 1) {
+				++r1.x;
+				continue;
+			}
+			if (map[r1.x][r1.y - 1] == 0) {
+				numOfClean++;
+				map[r1.x][r1.y - 1] = -1;
+				r1.dir = 3;
+				--r1.y;
+				continue;
+			}
+			else {
+				r1.dir = 3;
+				continue;
+			}
+		}
+		else if (r1.dir == 1) {
+			if (map[r1.x - 1][r1.y] * map[r1.x + 1][r1.y] * map[r1.x][r1.y - 1] * map[r1.x][r1.y + 1] != 0 && map[r1.x][r1.y-1] == 1) {
+				break;
+			}
+			if (map[r1.x - 1][r1.y] * map[r1.x + 1][r1.y] * map[r1.x][r1.y - 1] * map[r1.x][r1.y + 1] != 0 && map[r1.x][r1.y-1] != 1) {
+				--r1.y;
+				continue;
+			}
+			if (map[r1.x-1][r1.y] == 0) {
+				numOfClean++;
+				map[r1.x-1][r1.y] = -1;
+				r1.dir = 0;
+				--r1.x;
+				continue;
+			}
+			else {
+				r1.dir = 0;
+				continue;
+			}
+		}
+		else if (r1.dir == 2) {
+			if (map[r1.x - 1][r1.y] * map[r1.x + 1][r1.y] * map[r1.x][r1.y - 1] * map[r1.x][r1.y + 1] != 0 && map[r1.x - 1][r1.y] == 1) {
+				break;
+			}
+			if (map[r1.x - 1][r1.y] * map[r1.x + 1][r1.y] * map[r1.x][r1.y - 1] * map[r1.x][r1.y + 1] != 0 && map[r1.x - 1][r1.y] != 1) {
+				--r1.x;
+				continue;
+			}
+			if (map[r1.x][r1.y + 1] == 0) {
+				numOfClean++;
+				map[r1.x][r1.y + 1] = -1;
+				r1.dir = 1;
+				++r1.y;
+				continue;
+			}
+			else {
+				r1.dir = 1;
+				continue;
+			}
+		}
+		else if (r1.dir == 3) {
+			if (map[r1.x - 1][r1.y] * map[r1.x + 1][r1.y] * map[r1.x][r1.y - 1] * map[r1.x][r1.y + 1] != 0 && map[r1.x][r1.y + 1] == 1) {
+				break;
+			}
+			if (map[r1.x - 1][r1.y] * map[r1.x + 1][r1.y] * map[r1.x][r1.y - 1] * map[r1.x][r1.y + 1] != 0 && map[r1.x][r1.y + 1] != 1) {
+				++r1.y;
+				continue;
+			}
+			if (map[r1.x + 1][r1.y] == 0) {
+				numOfClean++;
+				map[r1.x + 1][r1.y] = -1;
+				r1.dir = 2;
+				++r1.x;
+				continue;
+			}
+			else {
+				r1.dir = 2;
+				continue;
+			}
+		}
+	}
+	cout << numOfClean << '\n';
+}
