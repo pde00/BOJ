@@ -1,0 +1,64 @@
+#include <iostream>
+#include <cmath>
+#include <algorithm>
+#include <vector>
+#define INF 987654321
+using namespace std;
+
+class pos {
+public:
+	int x, y;
+	pos(int ax, int ay) :x(ax), y(ay) {};
+	pos() {};
+};
+int N, M, T, cdist = INF;
+vector<pos> homeList, storeList, openStore;
+
+int calCdis() {
+	int cDis = 0;
+	for (int i = 0; i < homeList.size(); i++) {
+		int sum = INF;
+		for (int j = 0; j < openStore.size(); j++) {
+			sum = min(sum, abs(homeList.at(i).x - openStore.at(j).x) + abs(homeList.at(i).y - openStore.at(j).y));
+		}
+		cDis += sum;
+	}
+	return cDis;
+}
+
+void findCList(int cur, int cnt) {
+	if (cnt == T) {
+		cdist = min(cdist, calCdis());
+		return;
+	}
+	//고르는 경우
+	if (cnt < T) {
+		openStore.push_back(storeList.at(cur));
+		findCList(cur + 1, cnt + 1);
+		openStore.erase(openStore.end()-1);
+	}
+	//안고르는 경우
+	if (storeList.size() - cur + cnt  > T) findCList(cur + 1, cnt);
+}
+
+
+int main() {
+	int point;
+	cin >> N >> M;
+	for (int i = 1; i <= N; i++) {
+		for (int j = 1; j <= N; j++) {
+			cin >> point;
+			if (point == 1) {
+				homeList.push_back(pos(i, j));
+			}
+			else if (point == 2) {
+				storeList.push_back(pos(i, j));
+			}
+		}
+	}
+	for (int i = 1; i <= M; i++) {
+		T = i;
+		findCList(0, 0);
+	}
+	cout << cdist << '\n';
+}
