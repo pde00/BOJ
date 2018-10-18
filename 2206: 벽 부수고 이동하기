@@ -1,0 +1,64 @@
+#include <iostream>
+#include <algorithm>
+#include <queue>
+#pragma warning(disable:4996)
+using namespace std;
+
+class pos {
+public:
+	int x, y, crash;
+	pos(int ax, int ay, int ac) :x(ax), y(ay), crash(ac) {};
+};
+
+//1 BASE
+int N, M, map[1002][1002], result = 1;
+int dx[4] = { 0,0,1,-1 };
+int dy[4] = { 1,-1,0,0 };
+//0 NOT crash, 1 CRASH
+bool visit[2][1002][1002];
+queue<pos> q;
+
+void findRoute() {
+	if (N == 1 && M == 1) { cout << 1 << '\n'; return; }
+	visit[0][1][1] = true;
+	q.push(pos(1, 1, 0));
+	while (!q.empty()) {
+		int qsize = q.size();
+		for (int i = 0; i < qsize; i++) {
+			pos fr = q.front();
+			q.pop();
+			for (int j = 0; j < 4; j++) {
+				int tx = fr.x + dx[j];
+				int ty = fr.y + dy[j];
+				int tc = fr.crash;
+
+				if (tx == N && ty == M) {cout << ++result << '\n'; return; }
+				if (tx < 1 || tx > N || ty < 1 || ty > M) continue;
+				if (visit[tc][tx][ty]) continue;
+
+				if (map[tx][ty] == 1) {
+					if (tc == 1) continue;
+					visit[1][tx][ty] = true;
+					q.push(pos(tx, ty, 1));
+				}
+				if (map[tx][ty] == 0) {
+					visit[tc][tx][ty] = true;
+					q.push(pos(tx, ty, tc));
+				}
+			}
+		}
+		++result;
+	}
+	cout << -1 << '\n';
+}
+
+
+int main() {
+	cin >> N >> M;
+	for (int i = 1; i <= N; i++) {
+		for (int j = 1; j <= M; j++) {
+			scanf("%1d", &map[i][j]);
+		}
+	}
+	findRoute();
+}
