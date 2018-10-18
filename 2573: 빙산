@@ -1,0 +1,106 @@
+#include <iostream>	
+#include <queue>
+#include <vector>
+using namespace std;
+
+class pos {
+public:
+	int x, y, value;
+	pos(int ax, int ay) :x(ax), y(ay) {};
+};
+
+int N, M, time, map[302][302], chkT[302][302];
+int dx[4] = { 0,0,1,-1 };
+int dy[4] = { 1,-1,0,0 };
+bool visit[302][302];
+vector<int> numOfArea;
+queue<pos> q;
+
+void myReset() {
+	numOfArea.clear();
+	for (int i = 1; i <= N; i++) {
+		for (int j = 1; j <= M; j++) {
+			visit[i][j] = false;
+			chkT[i][j] = 0;
+		}
+	}
+}
+
+void chkArea() {
+	for(int i = 1; i <= N; i++) {
+		for(int j = 1; j <= M; j++) {
+			if (map[i][j] != 0 && visit[i][j] == false) {
+				visit[i][j] = true;
+				q.push(pos(i, j));
+				while (!q.empty()) {
+					pos fr = q.front();
+					q.pop();
+					for (int k = 0; k < 4; k++) {
+						int tx = fr.x + dx[k];
+						int ty = fr.y + dy[k];
+
+						if (tx < 1 || tx > N || ty < 1 || ty > M) continue;
+						if (visit[tx][ty]) continue;
+						if (map[tx][ty] == 0) continue;
+
+						visit[tx][ty] = true;
+						q.push(pos(tx, ty));
+					}
+				}
+				numOfArea.push_back(1);
+			}
+		}
+	}
+}
+
+void myTime() {
+	for (int i = 1; i <= N; i++) {
+		for (int j = 1; j <= M; j++) {
+			if (map[i][j] != 0) {
+				for (int k = 0; k < 4; k++) {
+					int tx = i + dx[k];
+					int ty = j + dy[k];
+
+					if (map[tx][ty] == 0) ++chkT[i][j];
+				}
+			}
+		}
+	}
+
+	for (int i = 1; i <= N; i++) {
+		for (int j = 1; j <= M; j++) {
+			if (map[i][j] != 0) {
+				(map[i][j] >= chkT[i][j]) ? map[i][j] -= chkT[i][j] : map[i][j] = 0;
+				}
+			}
+		}
+	++time;
+}
+
+void printMap() {
+	for (int i = 1; i <= N; i++) {
+		for (int j = 1; j <= M; j++) {
+			cout << map[i][j] << " ";
+		}
+		cout << '\n';
+	}
+}
+
+
+int main() {
+	cin >> N >> M;
+	for (int i = 1; i <= N; i++) {
+		for (int j = 1; j <= M; j++) {
+			cin >> map[i][j];
+		}
+	}
+
+	while (1) {
+		myTime();
+		chkArea();
+		
+		if (numOfArea.size() >= 2) { cout << time << '\n'; return 0; }
+		if (numOfArea.size() == 0) { cout << 0 << '\n'; return 0; }
+		myReset();
+	}
+}
