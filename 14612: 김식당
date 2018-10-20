@@ -1,0 +1,62 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <string>
+using namespace std;
+
+class orderSet {
+public:
+	int n, t;
+	orderSet(int an, int at) :n(an), t(at) {};
+};
+
+int N, M;
+vector<orderSet> oList;
+
+void printList() {
+	if (oList.size() == 0) { cout << "sleep" << '\n'; return; }
+	for (int i = 0; i < oList.size(); i++) {
+		cout << oList.at(i).n << " ";
+	}
+	cout << '\n';
+}
+
+void order(int n, int t) {
+	oList.push_back(orderSet(n, t));
+	printList();
+}
+
+bool cmp(const orderSet a, const orderSet b) {
+	if (a.t == b.t) {
+		return a.n < b.n;
+	}
+	return a.t < b.t;
+}
+
+void mySort() {
+	sort(oList.begin(), oList.end(), cmp);
+	printList();
+}
+
+void myComplete(int an) {
+	for (int i = 0; i < oList.size(); i++) {
+		if (oList.at(i).n == an) {
+			oList.erase(oList.begin() + i);
+			break;
+		}
+	}
+	printList();
+}
+
+int main() {
+	int a, b, c;
+	string od;
+	cin >> N >> M;
+	while(N--) {
+		cin >> od;
+		if (od == "order") {cin >> a >> b; order(a, b); }
+		if (od == "sort") { mySort(); }
+		if (od == "complete") {  cin >> c; myComplete(c);}
+	}
+
+}
