@@ -1,0 +1,70 @@
+#include <iostream>
+#include <queue>
+#include <algorithm>
+#define INF 987654321
+using namespace std;
+
+class pos {
+public:	
+	int x, y;
+	pos(int ax, int ay) :x(ax), y(ay) {};
+};
+
+
+int N, map[12][12], cost = INF;
+int dx[5] = { 0,0,0,-1,1 };
+int dy[5] = { 0,1,-1,0,0 };
+bool visit[12][12];
+vector<pos> pList, seedList;
+
+void myReset() {
+	for (int i = 1; i <= N; i++) {
+		for (int j = 1; j <= N; j++) {
+			visit[i][j] = false;
+		}
+	}
+}
+
+int calCost() {
+	int c = 0;
+	for (int i = 0; i < 3; i++) {
+		for (int j = 0; j < 5; j++) {
+			int x = seedList.at(i).x + dx[j];
+			int y = seedList.at(i).y + dy[j];
+
+			if (x <1 || x > N || y < 1 || y > N) return INF;
+			if (visit[x][y]) return INF;
+
+			visit[x][y] = true;
+			c += map[x][y];
+		}
+	}
+	return c;
+}
+
+void findMin(int cur, int cnt) {
+	if (cnt == 3) {
+		myReset();
+		cost = min(cost, calCost());
+		return;
+	}
+	if (cnt < 3) {
+		seedList.push_back(pList.at(cur));
+		findMin(cur + 1, cnt + 1);
+		seedList.erase(seedList.end() - 1);
+	}
+	if (pList.size() - cur + cnt > 3) findMin(cur + 1, cnt);
+}
+
+
+int main() {
+	cin >> N;
+	for (int i = 1; i <= N;i++) {
+		for (int j = 1; j <= N; j++) {
+			cin >> map[i][j];
+			pList.push_back(pos(i, j));
+		}
+	}
+	findMin(0, 0);
+	cout << cost << '\n';
+}
