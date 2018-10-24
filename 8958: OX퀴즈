@@ -1,0 +1,33 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+int T, result, temp;
+string str;
+
+void findScore(int cur) {
+	if (cur == str.size()) {
+		cout << result << '\n';
+		result = 0;
+		temp = 0;
+		return;
+	}
+	if (str[cur] == 'O') {
+		temp++;
+		result += temp;
+		findScore(cur + 1);
+	}
+	else {
+		temp = 0;
+		findScore(cur + 1);
+	}
+}
+
+
+int main() {
+	cin >> T;
+	while (T--) {
+		cin >> str;
+		findScore(0);
+	}
+}
