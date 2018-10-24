@@ -1,0 +1,18 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+vector<int> asc(8), des(8), v(8);
+
+int main() {
+	asc.push_back(1); asc.push_back(2); asc.push_back(3); asc.push_back(4); asc.push_back(5); asc.push_back(6); asc.push_back(7); asc.push_back(8);
+	des.push_back(8); des.push_back(7); des.push_back(6); des.push_back(5); des.push_back(4); des.push_back(3); des.push_back(2); des.push_back(1);
+	int m;
+	for (int i = 0; i < 8; i++) {
+		cin >> m;
+		v.push_back(m);
+	}
+	if (asc == v) { cout << "ascending" << '\n'; }
+	else if(des == v) { cout << "descending" << '\n'; }
+	else { cout << "mixed" << '\n'; }
+}
