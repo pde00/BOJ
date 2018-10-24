@@ -1,0 +1,11 @@
+#include <iostream>
+using namespace std;
+
+int main() {
+	char as;
+	int ar;
+	cin >> as;
+	ar = as;
+	cout << ar << '\n';
+}
+
