@@ -1,0 +1,19 @@
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+int ar[11][11], curX, curY, maxN;
+
+int main() {
+	for (int i = 1; i <= 9; i++) {
+		for (int j = 1; j <= 9; j++) {
+			cin >> ar[i][j];
+			if (ar[i][j] > maxN) {
+				maxN = ar[i][j];
+				curX = i;
+				curY = j;
+			}
+		}
+	}
+	cout << maxN << '\n' << curX << " " << curY << '\n';
+}
