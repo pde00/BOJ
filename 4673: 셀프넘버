@@ -1,0 +1,27 @@
+#include <iostream>
+using namespace std;
+
+int ar[10002];
+
+void d(int n) {
+	int result = n;
+	while (n > 0) {
+		result += (n % 10);
+		n /= 10;
+	}
+	if (result <= 10000) {
+		ar[result]--;
+		d(result);
+	}
+	else
+		return;
+}
+
+int main() {
+	for (int i = 1; i <= 10000; i++) d(i);
+	for (int i = 1; i <= 10000; i++) {
+		if (ar[i] > -1) {
+			cout << i << '\n';
+		}
+	}
+}
