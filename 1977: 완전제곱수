@@ -1,0 +1,19 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+int N, M, sum, minN = 1000000;
+vector<int> v;
+
+int main() {
+	cin >> N >> M;
+	for (int i = 1; i*i <= M; i++) {
+		if (i*i >= N) { minN = min(minN, i*i); v.push_back(i*i); sum += i*i; }
+	}
+	if (v.empty()) { cout << -1 << '\n'; return 0; }
+	else {
+		cout << sum << '\n';
+		cout << minN << '\n';
+	}
+}
