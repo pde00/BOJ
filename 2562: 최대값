@@ -1,0 +1,17 @@
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+int ar[11], cur, maxN;
+
+int main() {
+	for (int i = 1; i <= 9; i++) {
+		cin >> ar[i];
+		if (ar[i] > maxN) {
+			cur = i;
+			maxN = ar[i];
+		}
+	}
+	cout << maxN << '\n' << cur << '\n';
+	
+}
