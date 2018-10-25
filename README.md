@@ -1,3 +1,2 @@
 # BOJ
-
-problem source
+Problem Source
