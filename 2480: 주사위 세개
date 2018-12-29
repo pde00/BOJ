@@ -1,0 +1,20 @@
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+int ar[3];
+
+int main() {
+	cin >> *ar >> *(ar + 1) >> *(ar + 2);
+	sort(ar, ar + 3);
+
+	if (ar[0] == ar[1] && ar[1] == ar[2]) { 
+		cout << 10000 + ar[0] * 1000 << '\n'; 
+		return 0;
+	}
+	if ((ar[0] == ar[1] && ar[1] != ar[2]) || (ar[1] == ar[2] && ar[1] != ar[0])) {
+		cout << 1000 + ar[1] * 100 << '\n';
+		return 0;
+	}
+	cout << ar[2] * 100 << '\n';
+}
