@@ -1,0 +1,23 @@
+#include <iostream>
+using namespace std;
+
+
+int cnt;
+
+void isPrime(int n) {
+	if (n == 1) return;
+	for (int i = 2; i*i <= n; i++) {
+		if (n % i == 0) return;
+	}
+	cnt++;
+}
+
+int main() {
+	int n,t;
+	cin >> n;
+	while (n--) {
+		cin >> t;
+		isPrime(t);
+	}
+	cout << cnt << '\n';
+}
