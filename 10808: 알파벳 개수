@@ -1,0 +1,48 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+int ar[26];
+
+void printAr() {
+	for (int i = 0; i < 26; i++)
+		cout << ar[i] << " ";
+	cout << '\n';
+}
+
+int main() {
+	string s;
+	char temp;
+	cin >> s;
+
+	for (int i = 0; i < s.size(); i++) {
+		temp = s.at(i);
+		if (temp == 'a') ar[0]++;
+		if (temp == 'b') ar[1]++;
+		if (temp == 'c') ar[2]++;
+		if (temp == 'd') ar[3]++;
+		if (temp == 'e') ar[4]++;
+		if (temp == 'f') ar[5]++;
+		if (temp == 'g') ar[6]++;
+		if (temp == 'h') ar[7]++;
+		if (temp == 'i') ar[8]++;
+		if (temp == 'j') ar[9]++;
+		if (temp == 'k') ar[10]++;
+		if (temp == 'l') ar[11]++;
+		if (temp == 'm') ar[12]++;
+		if (temp == 'n') ar[13]++;
+		if (temp == 'o') ar[14]++;
+		if (temp == 'p') ar[15]++;
+		if (temp == 'q') ar[16]++;
+		if (temp == 'r') ar[17]++;
+		if (temp == 's') ar[18]++;
+		if (temp == 't') ar[19]++;
+		if (temp == 'u') ar[20]++;
+		if (temp == 'v') ar[21]++;
+		if (temp == 'w') ar[22]++;
+		if (temp == 'x') ar[23]++;
+		if (temp == 'y') ar[24]++;
+		if (temp == 'z') ar[25]++;
+	}
+	printAr();
+}
