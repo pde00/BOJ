@@ -1,0 +1,30 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+int N; string ar[52];
+
+void chkSame() {
+	string s;
+	bool flag;
+	int len = ar[1].size();
+	for (int i = 0; i < len; i++) {
+		flag = true;
+		for (int j = 1; j < N; j++) {
+			if (ar[j].at(i) != ar[j + 1].at(i)) {
+				s += "?";
+				flag = false;
+				break;
+			}
+		}
+		if (flag) s += ar[1].at(i);
+	}
+	cout << s << '\n';
+}
+
+
+int main() {
+	cin >> N;
+	for (int i = 1; i <= N; i++) cin >> ar[i];
+	chkSame();
+}
