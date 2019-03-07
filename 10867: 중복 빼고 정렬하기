@@ -1,0 +1,27 @@
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+int N, ar[100001], cntAr[2001];
+
+void printSeq(){
+    for(int i = 0; i < 2001; i++){
+        if(cntAr[i] != 0){
+            cout << i - 1000 << " ";
+        }
+    }
+    cout << '\n';
+}
+
+int main(void){
+    cin.tie(NULL);
+    ios_base::sync_with_stdio(false);
+
+    cin >> N;
+    for(int i = 0; i < N; i++){
+        cin >> ar[i];
+        ++cntAr[ar[i] + 1000];
+    }
+    sort(ar, ar + N);
+    printSeq();
+}
