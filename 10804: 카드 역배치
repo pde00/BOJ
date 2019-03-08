@@ -1,0 +1,39 @@
+#include <iostream>
+using namespace std;
+
+int o_1, o_2, ar[21];
+
+void setAr();
+void printAr();
+void shuffleCard(int a, int b);
+
+int main(void){
+    setAr();
+    for(int i = 0; i < 10; i++){
+        cin >> o_1 >> o_2;
+        shuffleCard(o_1, o_2);
+    }
+    printAr();
+
+}
+
+void setAr(){
+    for(int i = 1; i <= 20; i++) ar[i] = i;
+} 
+
+void printAr(){
+    for(int i = 1; i <= 20; i++){
+        cout << ar[i] << " ";
+    }
+    cout << '\n';
+}
+
+void shuffleCard(int a, int b){
+    while(1){
+        if(a >= b) break;
+        int temp = ar[a];
+        ar[a] = ar[b];
+        ar[b] = temp;
+        ++a; --b;
+    }
+}   
